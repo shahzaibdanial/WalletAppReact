@@ -37,7 +37,7 @@ class UpdateWallet extends Component {
     }
 
 
-    componentDidUpdate(){
+    componentDidMount(){
         this.props.getWallet(this.props.match.params.id)
     }
     changeHandler = (event,fieldName) =>{
