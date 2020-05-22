@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import {createWallet} from '../../../actions/projectActions'
+import {connect} from 'react-redux'
+import classnames from 'classname'
 
 class CreateWallet extends Component {
     constructor(props) {
@@ -9,7 +11,15 @@ class CreateWallet extends Component {
              name:'',
              accountNumber:'',
              description:'',
-             priority:''
+             priority:'',
+             errors:''
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.errors){
+            this.setState({errors:nextProps.errors})
+
         }
     }
     changeHandler = (event,fieldName) =>{
@@ -25,13 +35,7 @@ class CreateWallet extends Component {
             description:this.state.description,
             priority:this.state.priority 
         }
-        axios.post('http://localhost:8080/wallet', newWallet)
-        .then((res)=>{
-            alert("sucess")
-
-        }).catch((err)=>{
-        alert("error")
-        })
+       this.props.createWallet(newWallet,this.props.histroy)
         event.preventDefault()
     }
     render() {
@@ -44,13 +48,16 @@ class CreateWallet extends Component {
                             <hr />
                             <form onSubmit={(event)=>this.submitHandler(event)}>
                                 <div className="form-group">
-                                    <input type="text" onChange={(event)=>this.changeHandler(event,"name")} className="form-control form-control-lg " placeholder="Account Name" />
+                                    <input type="text" onChange={(event)=>this.changeHandler(event,"name")} className={classnames("form-control form-control-lg",{"is-invalid":this.state.errors.name})} placeholder="Account Name" />
+                                    <p className="test-danger">{this.state.errors.name}</p>
                                 </div>
                                 <div className="form-group">
-                                    <input type="text" onChange={(event)=>this.changeHandler(event,"accountNumber")} className="form-control form-control-lg" placeholder="Account No" />
+                                    <input type="text" onChange={(event)=>this.changeHandler(event,"accountNumber")} className={classnames("form-control form-control-lg",{"is-invalid":this.state.errors.accountNumber})} placeholder="Account No" />
+                                    <p className="test-danger">{this.state.errors.accountNumber}</p>
                                 </div>
                                 <div className="form-group">
-                                    <textarea onChange={(event)=>this.changeHandler(event,"description")} className="form-control form-control-lg" placeholder="Description"></textarea>
+                                    <textarea onChange={(event)=>this.changeHandler(event,"description")} className={classnames("form-control form-control-lg",{"is-invalid":this.state.errors.description})} placeholder="Description"></textarea>
+                                    <p className="test-danger">{this.state.errors.description}</p>
                                 </div>
                                 <div className="form-group">
                                     <select className="form-control form-control-lg" onChange={(event)=>this.changeHandler(event,"prirotity")}>
@@ -69,5 +76,9 @@ class CreateWallet extends Component {
         )
     }
 }
+const mapStateToProps =(state) =>({
 
-export default CreateWallet
+    errors:state.errors
+    
+})
+export default connect(mapStateToProps,{createWallet})(CreateWallet)
