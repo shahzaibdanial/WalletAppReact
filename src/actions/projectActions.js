@@ -31,11 +31,11 @@ export const getWallets = () => async dispath => {
 
         })
 }
-export const getWallet = (id) => async dispath => {
+export const deleteWallet = (id) => async dispath => {
 
-    await axios.get(`http://localhost:8080/wallet/${id}`)
+    await axios.delete(`http://localhost:8080/wallet/${id}`)
         .then((res) => {
-            dispath({ type: GET_WALLET, payload: res.data })
+            dispath({ type: DELETE_WALLET, payload: res.data })
 
         })
 }
