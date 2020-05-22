@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import Dashboarditem from './Dashboarditem'
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getWallets} from '../../actions/projectActions'
 
 class Dashboard extends Component {
+    componentDidMount(){
+        this.props.getWallets()
+    }
     render() {
+        const wallets= this.props.wallets
+        const walletComponent = wallets.map(wallet=>(<Dashboarditem key={wallet.id} wallet={wallet} />))
         return (
             <div className="projects">
                 <div className="container">
@@ -34,8 +41,9 @@ class Dashboard extends Component {
                             
                            // <!-- Project Item Component -->
                             }
-                    <Dashboarditem />
-                    <Dashboarditem />
+
+                            {walletComponent}
+                   
 
                             {
 
@@ -50,5 +58,10 @@ class Dashboard extends Component {
         )
     }
 }
+const mapStateToProps = (state)=> ({
 
-export default Dashboard
+    wallets:state.wallet.wallets
+
+})
+
+export default connect(mapStateToProps,{getWallets})(Dashboard)

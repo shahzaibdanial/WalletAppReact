@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_ERRORS} from  './types'
+import { GET_ERRORS, GET_WALLETS} from  './types'
 
 export const createWallet = (newWallet, history) => async dispath => {
 
@@ -12,3 +12,12 @@ export const createWallet = (newWallet, history) => async dispath => {
         })
 
 }
+
+export const getWallets = () => async dispath => {
+
+    await  axios.get('http://localhost:8080/wallet')
+          .then((res) => {
+             dispath({type:GET_WALLETS,payload:res.data})
+  
+          })
+        }
