@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getWallets} from '../../actions/projectActions'
 
+
 class Dashboard extends Component {
     componentDidMount(){
         this.props.getWallets()
@@ -11,6 +12,9 @@ class Dashboard extends Component {
     render() {
         const wallets= this.props.wallets
         const walletComponent = wallets.map(wallet=>(<Dashboarditem key={wallet.id} wallet={wallet} />))
+        if(walletComponent.length===0){
+            <div className="alert alert-info">No Wallets Found!</div>
+        }
         return (
             <div className="projects">
                 <div className="container">
@@ -43,6 +47,7 @@ class Dashboard extends Component {
                             }
 
                             {walletComponent}
+                            
                    
 
                             {

@@ -1,23 +1,32 @@
 import axios from 'axios'
-import { GET_ERRORS, GET_WALLETS} from  './types'
+import { GET_ERRORS, GET_WALLETS, DELETE_WALLET } from './types'
 
 export const createWallet = (newWallet, history) => async dispath => {
 
-  await  axios.post('http://localhost:8080/wallet', newWallet)
+    await axios.post('http://localhost:8080/wallet', newWallet)
         .then((res) => {
             history.push('/dashboard')
 
         }).catch((err) => {
-            dispath({type:GET_ERRORS,payload:err.response.data})
+            dispath({ type: GET_ERRORS, payload: err.response.data })
         })
 
 }
 
 export const getWallets = () => async dispath => {
 
-    await  axios.get('http://localhost:8080/wallet')
-          .then((res) => {
-             dispath({type:GET_WALLETS,payload:res.data})
-  
-          })
-        }
+    await axios.get('http://localhost:8080/wallet')
+        .then((res) => {
+            dispath({ type: GET_WALLETS, payload: res.data })
+
+        })
+}
+
+export const deleteWallets = (id) => async dispath => {
+
+    await axios.delete(`http://localhost:8080/wallet/${id}`)  
+        .then((res) => {
+            dispath({ type: DELETE_WALLET, payload: id })
+
+        })
+}
