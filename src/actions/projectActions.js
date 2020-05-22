@@ -12,12 +12,30 @@ export const createWallet = (newWallet, history) => async dispath => {
         })
 
 }
+export const updateWallet = (id,updatedWallet, history) => async dispath => {
+
+    await axios.post(`http://localhost:8080/wallet/${id}`, updatedWallet)
+        .then((res) => {
+            history.push('/dashboard')
+
+        }).catch((err) => {
+            dispath({ type: GET_ERRORS, payload: err.response.data })
+        })
+    }
 
 export const getWallets = () => async dispath => {
 
     await axios.get('http://localhost:8080/wallet')
         .then((res) => {
             dispath({ type: GET_WALLETS, payload: res.data })
+
+        })
+}
+export const getWallet = (id) => async dispath => {
+
+    await axios.get(`http://localhost:8080/wallet/${id}`)
+        .then((res) => {
+            dispath({ type: GET_WALLET, payload: res.data })
 
         })
 }

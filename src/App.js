@@ -9,6 +9,7 @@ import CreateWallet from './components/dashboard/dashboardoperations/CreateWalle
 import NotFound from './components/shared/NotFound';
 import {Provider} from 'react-redux';
 import store from './Store';
+import UpdateWallet from './components/dashboard/dashboardoperations/UpdateWallet';
 function App() {
   return (
     <Provider store={store}>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/dashboard" exact component={Dashboard} />
         <Route path="/createwallet" exact component={CreateWallet} />
         <Route path="/" component={NotFound} />
+        <Route path="/updatewallet/:id" exact component={UpdateWallet} />
       </Switch>
  </BrowserRouter>
  </Provider>
